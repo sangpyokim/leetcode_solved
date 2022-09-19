@@ -22,26 +22,22 @@ var largestValsFromLabels = function(values, labels, numWanted, useLimit) {
     let index = 0
     let count = 0
     const map = new Map()
-    while (count !== numWanted && index < values.length) {
-
-        const [curItemValue, curItemLabel] = items[index]
-        
+    
+    for (let i in items) {
+        const [curItemValue, curItemLabel] = items[i]
         if (map.has(curItemLabel)) {
-            if (map.get(curItemLabel) + 1 > useLimit) {
-                index++
-            } else {
+            if (map.get(curItemLabel) + 1 > useLimit) continue
                 answer += curItemValue
-                index++
+                map.set(curItemLabel, map.get(curItemLabel) + 1) 
                 count++
-                map.set(curItemLabel, map.get(curItemLabel) + 1)    
-            }
-            
         } else {
             answer += curItemValue
-            index++
             count++
             map.set(curItemLabel, 1)
         }
+        
+        if (count === numWanted) return answer
     }
+    
     return answer
 };
