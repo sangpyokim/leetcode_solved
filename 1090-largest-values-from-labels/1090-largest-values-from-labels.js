@@ -18,8 +18,6 @@ var largestValsFromLabels = function(values, labels, numWanted, useLimit) {
 
     
     let answer = 0
-    
-    let index = 0
     let count = 0
     const map = new Map()
     
