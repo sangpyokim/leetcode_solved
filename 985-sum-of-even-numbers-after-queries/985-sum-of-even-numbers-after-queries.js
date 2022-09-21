@@ -5,11 +5,10 @@
  */
 var sumEvenAfterQueries = function(nums, queries) {
     const answer = []
-    
 
-    let odd = 0
+    let even = 0
     for (let num of nums) {
-        if (num % 2 === 0) odd += num
+        if (num % 2 === 0) even += num
     }
     
     
@@ -17,22 +16,23 @@ var sumEvenAfterQueries = function(nums, queries) {
         const [val, index] = queries[i]
         
         let temp = nums[index]
-        
+    
         nums[index] = nums[index] + val
-        
-        // 짝수에서 짝수 => 원래값 빼고 더해줌
-        // 짝수에서 홀수임 -> 원래 값 빼줌
-        // 홀수에서 짝수 -> 바뀐 값 더해줌
-        
+
+        // even to even
         if (temp % 2 === 0 && nums[index] % 2 === 0) {
-            odd -= temp
-            odd += nums[index]
-        } else if (temp % 2 === 0 && nums[index] % 2 !== 0) {
-            odd -= temp
-        } else if (temp % 2 !== 0 && nums[index] % 2 === 0) {
-            odd += nums[index]
+            even -= temp
+            even += nums[index]
         }
-        answer.push(odd)
+        // even to odd 
+        else if (temp % 2 === 0 && nums[index] % 2 !== 0) {
+            even -= temp
+        } 
+        // odd to even 
+        else if (temp % 2 !== 0 && nums[index] % 2 === 0) {
+            even += nums[index]
+        }
+        answer.push(even)
     }
     
     return answer
