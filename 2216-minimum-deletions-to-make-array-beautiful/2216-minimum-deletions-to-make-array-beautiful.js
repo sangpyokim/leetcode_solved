@@ -1,13 +1,17 @@
-var minDeletion = function( nums ) {
-        var count = 0;
-        
-        for( let i = 0; i < nums.length ; i++ ) {
-                if( i % 2 === 0 && nums[i] === nums[i + 1] ) {
-                        nums.shift();
-                        i--;
-                        count++;
-                }
+var minDeletion = function (nums) {
+    const n = nums.length;
+
+    let deletes = 0;
+    for (let i = 0; i < n - 1; i++) {
+        let j = i - deletes; // new i
+        if (
+            j % 2 === 0 && //
+            nums[i] === nums[i + 1]
+        ) {
+            deletes++;
         }
-		
-        return nums.length % 2 !== 0 ? count + 1 : count;
+    }
+
+    // nums.length must be is even, if odd delete 1 more
+    return deletes + ((n - deletes) % 2);
 };
