@@ -20,7 +20,6 @@ var maximumUniqueSubarray = function(nums) {
                 if (map.get(temp) > 1) map.set(temp, map.get(temp) - 1)
                 else map.delete(temp)
                 left++
-                console.log("A")
             }
 
         }
