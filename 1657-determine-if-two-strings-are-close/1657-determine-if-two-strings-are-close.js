@@ -33,7 +33,6 @@ var closeStrings = function(word1, word2) {
     t2.sort((a,b) => a-b)
     if (t1.length !== t2.length) return false
     for (let i in t1) {
-        console.log(i)
         if (t1[i] !== t2[i]) return false
     }
     return true
