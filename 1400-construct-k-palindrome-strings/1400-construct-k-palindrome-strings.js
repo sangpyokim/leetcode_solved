@@ -12,10 +12,7 @@ var canConstruct = function(s, k) {
     
     for (let [k, v] of map) {
         if (v % 2 !== 0) oddCount++
-        
-        
     }
     if (oddCount > k) return false
-    
     return true;
 };
