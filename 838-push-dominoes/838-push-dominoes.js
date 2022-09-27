@@ -1,7 +1,6 @@
 var pushDominoes = function(dominoes) {
     let l=0, r=1;
     const arr = ("L"+dominoes+"R").split("");
-    console.log(arr)
     
     while(l<arr.length-1){
         while(arr[r]=='.') 
