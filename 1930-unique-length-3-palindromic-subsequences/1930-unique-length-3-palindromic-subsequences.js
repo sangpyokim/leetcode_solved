@@ -1,22 +1,23 @@
 var countPalindromicSubsequence = function(s) {
-    var l={}
-    var r={}
-    var res=0
-
-    var marked= new Set();
-    for (let i=0; i<s.length; i++){
-        if (l[s[i]]==undefined)l[s[i]]=i
-        r[s[i]]=i
+    const left = []
+    const right = []
+    
+    for (let i in s) {
+        const char = s[i]
+        if (left[char] === undefined) left[char] = i
+        else right[char] = i
     }
     
-    for (let key in l){
-        for (let i=l[key]+1; i<r[key]; i++){
-          if (!marked.has(key+s[i]+key)){
-              marked.add(key+s[i]+key);
-              res++;
-          }
+    const set = new Set()
+    for (let l in left) {
+        for (let r in right) {
+            
+            for (let i = left[l]*1 + 1; i < right[r] && l === r; i++) {
+                set.add(l + s[i] + r)
+            }
+            
         }
     }
-    
-    return res;
+        
+    return set.size
 }
