@@ -3,8 +3,7 @@
  * @param {number[][]} prerequisites
  * @return {boolean}
  */
-var canFinish = function(numCourses, prerequisites) {
-    
+var canFinish = function(numCourses, prerequisites) { 
     const graph = {}
     for (let [a,b] of prerequisites) {
         if (graph[a]) {
