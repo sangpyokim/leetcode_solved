@@ -30,7 +30,7 @@ var findLadders = function(beginWord, endWord, wordList) {
     recursion(beginWord, shortestLen)
     
     return ladders
-//
+
     
     // 재귀  
     function recursion(curWord, curShortest) {
@@ -51,30 +51,38 @@ var findLadders = function(beginWord, endWord, wordList) {
     function findShortestLen(beginWord, endWord) {
         const queue = []
         queue.push(endWord)
+        
         let count = 0
         wordToShortest.set(endWord, count)
+        
         while (queue.length !== 0) {
             count++;
             const size = queue.length
+            
             for (let i = 0; i < size; i++) {
                 const curLast = queue.shift()
                 const neighbors = findAllNeighbors(curLast)
+                
                 for (let neighbor of neighbors) {
                     if (wordToShortest.has(neighbor)) continue
+                    
                     wordToShortest.set(neighbor, count)
+                    
                     if (neighbor === beginWord)  {
                         return count
                     }
+                    
                     queue.push(neighbor)
                 }
             }
         }
+        
         return -1
     }
     
     function findAllNeighbors(word) {
         if (wordToNeighbors.has(word)) return wordToNeighbors.get(word)
-        neighbors = []
+        const neighbors = []
         for (let w of wordList) {
             if (isNeighbor(word, w)) {
                 neighbors.push(w)
