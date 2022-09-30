@@ -17,90 +17,82 @@
 
 
 var findLadders = function(beginWord, endWord, wordList) {
-    if (!wordList.includes(endWord)) return []
-    if (beginWord === endWord) return [[beginWord]]
+    const wordSet = new Set([...wordList, beginWord])
     
-    wordList.push(beginWord)
-    const wordToNeighbors = new Map()
     const wordToShortest = new Map()
-    const shortestLen = findShortestLen(beginWord, endWord)
-    const ladders = []
-    const curLadder = [beginWord]
+    const wordToNeighbors = new Map()
     
-    recursion(beginWord, shortestLen)
     
-    return ladders
-
+    const shortestLen = findShortestLen(endWord)
+    const answer = []
+    // console.log(shortestLen, wordToShortest, wordToNeighbors)
     
-    // 재귀  
-    function recursion(curWord, curShortest) {
-        if (curShortest === 0) {
-            ladders.push([...curLadder])
-            return
+    dfs(beginWord, shortestLen, [beginWord])
+    
+    function dfs(word, depth, list) {
+        if (depth === 0) {
+            return answer.push(list)
         }
-        const neighbors = findAllNeighbors(curWord)
-        for (let neighbor of neighbors) {
-            if (!wordToShortest.has(neighbor) || wordToShortest.get(neighbor) != curShortest - 1) continue
-            curLadder.push(neighbor)
-            recursion(neighbor, curShortest - 1)
-            curLadder.pop()
+        
+        // 다음 경로를 찾고
+        // 그 경로가 현재 뎁스에서 +1인지 확인하고 경로 이동
+        const next = findWord(word)
+
+        for (let x of next) {
+            if (wordToShortest.get(x) === depth -1) dfs(x, depth-1, [...list, x])
         }
     }
     
-    // 1단계
-    function findShortestLen(beginWord, endWord) {
-        const queue = []
-        queue.push(endWord)
-        
-        let count = 0
-        wordToShortest.set(endWord, count)
-        
-        while (queue.length !== 0) {
-            count++;
-            const size = queue.length
+    return answer
+    function findShortestLen(node) {
+        const q = [node]
+        let dep = 0
+        wordToShortest.set(endWord, dep)
+        while(q.length) {
+            const len = q.length
+            dep++
             
-            for (let i = 0; i < size; i++) {
-                const curLast = queue.shift()
-                const neighbors = findAllNeighbors(curLast)
-                
-                for (let neighbor of neighbors) {
-                    if (wordToShortest.has(neighbor)) continue
+            for (let i = 0; i < len; i++) {
+                const cur = q.shift()
+                const wordList = findWord(cur)
+
+                for (let word of wordList) {
+                    if (wordToShortest.has(word)) continue
+                    wordToShortest.set(word, dep)
+
+                    if (word === beginWord) return dep
                     
-                    wordToShortest.set(neighbor, count)
-                    
-                    if (neighbor === beginWord)  {
-                        return count
-                    }
-                    
-                    queue.push(neighbor)
+                    q.push(word)
                 }
             }
         }
-        
         return -1
     }
-    
-    function findAllNeighbors(word) {
+
+    function findWord(word) {
         if (wordToNeighbors.has(word)) return wordToNeighbors.get(word)
-        const neighbors = []
-        for (let w of wordList) {
-            if (isNeighbor(word, w)) {
-                neighbors.push(w)
-            }
+        
+        const list = []
+        for (let x of wordSet) {
+
+            if (isNeighbor(word, x)) list.push(x)
         }
-        wordToNeighbors.set(word, neighbors)
-        return neighbors
+        
+        wordToNeighbors.set(word, list)
+        return list
     }
     
     function isNeighbor(w1, w2) {
         if (w1.length !== w2.length) return false
-        let diff = 0
-        for (let i = 0; i < w1.length; i++) {
-            if (w1.charAt(i) !== w2.charAt(i)) {
-                diff++
-                if (diff > 1) return false
-            }
+
+        const len = w1.length
+        let dif = 0
+        for (let i = 0; i < len; i++) {
+            if (w1.charAt(i) !== w2.charAt(i)) dif++
+            if (dif > 1) return false
         }
-        return diff === 1
+        
+        return dif === 1
     }
+
 };
