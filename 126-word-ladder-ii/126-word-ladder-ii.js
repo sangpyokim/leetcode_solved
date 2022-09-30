@@ -18,32 +18,25 @@
 
 var findLadders = function(beginWord, endWord, wordList) {
     const wordSet = new Set([...wordList, beginWord])
-    
     const wordToShortest = new Map()
     const wordToNeighbors = new Map()
-    
-    
     const shortestLen = findShortestLen(endWord)
+    
     const answer = []
-    // console.log(shortestLen, wordToShortest, wordToNeighbors)
     
     dfs(beginWord, shortestLen, [beginWord])
     
     function dfs(word, depth, list) {
-        if (depth === 0) {
-            return answer.push(list)
-        }
+        if (depth === 0) return answer.push(list)
         
-        // 다음 경로를 찾고
-        // 그 경로가 현재 뎁스에서 +1인지 확인하고 경로 이동
         const next = findWord(word)
-
         for (let x of next) {
             if (wordToShortest.get(x) === depth -1) dfs(x, depth-1, [...list, x])
         }
     }
     
     return answer
+    
     function findShortestLen(node) {
         const q = [node]
         let dep = 0
