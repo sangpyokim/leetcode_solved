@@ -1,50 +1,40 @@
-/**
- * @param {string} s
- * @param {string} t
- * @return {string}
- */
-
-// O(n * m): n == s.length, m == t.length
 var minWindow = function(s, t) {
-    let answer = []
-
-    const TMap = new Map()
-    for (let char of t) {
-        TMap.set(char, TMap.get(char) + 1 || 1)
+    let need ={}, window={};
+    for(let char of t){
+        if(!need[char]) need[char] =1
+        else need[char] = need[char]+1
     }
-    // console.log(TMap)
-    const len = s.length
-    let left = 0, right = 0;
-    let maxLen = Infinity;
     
-    for (right; right < len; right++) {
-        const cur = s[right]
+    let left=0, right =0;
+    let valid =0, len=Object.keys(need).length;
+    let minLen = s.length+1, minStr="";
+    
+    while(right<s.length){
+        const d =s[right]
+        right++;
         
-        if (TMap.has(cur)) TMap.set(cur, TMap.get(cur) -1)
+        if(!window[d]) window[d]=1;
+        else window[d]+=1
         
+        if(need[d] && need[d] === window[d]){
+            valid++;
+        }
         
-        while(overlapCheck()) {
-            if (maxLen > right - left +1) {
-                maxLen = right - left +1
-                answer = [left, right]
+        while(valid === len){
+            if(right-left<minLen){
+                minStr=s.slice(left, right)
+                minLen = right- left
             }
             
-            let prev = s[left]
-            if (TMap.has(prev)) TMap.set(prev, TMap.get(prev) + 1)
-            left++
+            let c = s[left]
+            left+=1
+            window[c]= window[c]-1
             
+            if(need[c] && window[c]<need[c]){
+                valid--
+            }
         }
     }
     
-    function overlapCheck() {
-        let res = true
-        for (let [k, v] of TMap) {
-            if (v > 0) return false
-        }
-        return res
-    }
-    
-    if (answer.length === 0) return ''
-    
-    return s.slice(answer[0], answer[1]+1)
+    return minStr
 };
