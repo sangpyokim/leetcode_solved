@@ -1,15 +1,24 @@
+/**
+ * @param {number[]} people
+ * @param {number} limit
+ * @return {number}
+ */
 var numRescueBoats = function(people, limit) {
-    people.sort((a, b) => b - a);
-    
-    let i = 0, j = people.length-1;
-    
-    let count = 0;
-    
-    while (i <= j) {
-        // 가장 가벼운 사람 + 가장 무거운 사람이 limit을 넘지않으면 j--
-        if (people[i] + people[j] <= limit) j--;
-        i++;
-        count++;
+    people.sort((a,b) => a-b)
+    // console.log(people)
+    let left = 0, right = people.length-1
+    let count = 0
+    while(left <= right) {
+        const sum = people[left] + people[right]
+        // console.log(sum,left,right)
+        if (sum > limit) right--
+        else {
+            left++
+            right--
+        }
+        count++
+        
     }
-    return count;
+    
+    return count
 };
