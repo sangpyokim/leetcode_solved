@@ -1,6 +1,6 @@
 var nextPermutation = function(nums) {
     
-    for(let i = nums.length-1; i >= 0; i--) {
+    for(let i = nums.length-2; i >= 0; i--) {
         if(nums[i] < nums[i+1]) {
             const large = nextLarge(i);
             swap(i, large);
