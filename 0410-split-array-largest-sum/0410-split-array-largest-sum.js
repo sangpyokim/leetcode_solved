@@ -14,12 +14,11 @@ var splitArray = function(nums, k) {
         let mid = Math.floor((left + right) / 2)
         let total = 0, count = 1
         for (let num of nums) {
-            if (total + num <= mid) {
-                total += num
-            } else {
-                total = num
-                count+=1
-            }
+            if (total + num > mid) {
+                count++
+                total = 0
+            } 
+            total+=num
         }
         if (count > k) left = mid+1
         else right = mid
