@@ -9,8 +9,11 @@ var splitArray = function(nums, k) {
         left = Math.max(num, left)
         right += num
     }
-
+    // left = nums의 가장 큰 값
+    // right = nums의 총 합
+    
     while(left < right) {
+        // 
         let mid = Math.floor((left + right) / 2)
         let total = 0, count = 1
         for (let num of nums) {
