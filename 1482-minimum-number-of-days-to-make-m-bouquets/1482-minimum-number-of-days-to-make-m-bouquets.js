@@ -6,7 +6,7 @@ var minDays = function (bloomDay, m, k) {
     return -1;
   }
   while (left < right) {
-    let mid = Math.floor(left / 2 + right / 2);
+    let mid = Math.floor((left + right) / 2);
     let flowers = 0;
     let bouque = 0;
       
