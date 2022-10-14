@@ -3,28 +3,24 @@
  * @return {number}
  */
 var maximumUniqueSubarray = function(nums) {
-    let max = 0
-    
+    let left = 0, right = 0
+    let sum = 0
     const map = new Map()
-    const len = nums.length;
-    let left = 0, sum = 0;
-
-    for (let right = 0; right < len; right++) {
-        const cur = nums[right]
-        sum += cur
-        map.set(cur, map.get(cur) + 1 || 1)
-        if (map.get(cur) > 1) {
-            while( map.get(cur) > 1) {
-                const temp = nums[left]
-                sum -= temp
-                if (map.get(temp) > 1) map.set(temp, map.get(temp) - 1)
-                else map.delete(temp)
-                left++
-            }
-
+    let answer = 0
+    for (right in nums) {
+        const num = nums[right]
+        
+        sum += num
+        
+        map.set(num, map.get(num)+1 || 1)
+        
+        while(map.get(num) > 1) {
+            map.set(nums[left], map.get(nums[left]) -1)
+            sum -= nums[left]
+            left++
         }
-        max = Math.max(max, sum)
+        // console.log(left, right, sum)
+        answer = Math.max(answer, sum)
     }
-    
-    return max
+    return answer
 };
