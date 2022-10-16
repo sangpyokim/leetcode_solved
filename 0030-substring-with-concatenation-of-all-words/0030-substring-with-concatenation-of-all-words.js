@@ -8,7 +8,7 @@ var findSubstring = function(s, words) {
     let slideWindow = wordLength * wordCount
     
     for (let word of words) {
-        map.has(word) ? map.set(word, map.get(word) + 1) : map.set(word, 1)
+        map.set(word, map.get(word) + 1 || 1)
     }
     
     let leftIndex = 0
@@ -20,8 +20,7 @@ var findSubstring = function(s, words) {
         
         for (let i = 0; i < tempStr.length; i+= wordLength) {
             let word = tempStr.substr(i, wordLength)
-            
-            visited.has(word) ? visited.set(word, visited.get(word) + 1) : visited.set(word, 1)
+            visited.set(word, visited.get(word)+1 || 1)
         }
         
         for (let [key, val] of visited) {
