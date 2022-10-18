@@ -7,13 +7,13 @@ var smallestRange = function(nums) {
     const map = new Map()
     
     for (let i in nums) {
-        map.set(i*1, 0)
+        // map.set(i*1, 0)
         for (let num of nums[i]) {
             arr.push([i*1, num])
         }
     }
     arr.sort((a,b) => a[1]-b[1])
-    const len = arr.length
+    const len = arr.length, size = nums.length
     let left = 0, right = 0, maxSum = Infinity, res = []
     // console.log(arr)
     while(right < len) {
@@ -30,20 +30,16 @@ var smallestRange = function(nums) {
             maxSum = Math.min(maxSum, max-min)
             
             map.set(prevI, map.get(prevI) - 1)
+            if(map.get(prevI) === 0) map.delete(prevI)
             left++
         }
         
         
         right++
     }
+
     function check() {
-        let res = true
-        
-        for (let [k, v] of map) {
-            if (v < 1) return false
-        }
-        
-        return res
+        return map.size === size
     }
     
     return res
