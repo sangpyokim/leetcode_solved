@@ -3,31 +3,26 @@ var subarraysWithKDistinct = function(A, K) {
 };
 
 function atMostK(A, K) {
-    let count = {};
-    let maxArr = 0,left = 0;
-
-    for (let right = 0; right < A.length; right++) {
-        const rightInt = A[right];
-
-        if (!(rightInt in count)) {
-            count[rightInt] = 0;
+    const map = new Map()
+    let left = 0, right = 0, count = 0
+    const len = A.length
+    
+    while (right < len) {
+        const cur = A[right]
+        
+        map.set(cur, map.get(cur) + 1 || 1)
+        
+        while(K - map.size < 0) {
+            const prev = A[left]
+            map.set(prev, map.get(prev) - 1)
+            if (map.get(prev) === 0) map.delete(prev)
+            
+            left++
         }
-
-        if (count[rightInt] === 0) {
-            K -= 1;
-        }
-        count[rightInt] += 1;
-
-        while (K < 0) {
-            const leftInt = A[left];
-            count[leftInt] -= 1;
-            if (count[leftInt] === 0) {
-                K += 1;
-            }
-            left += 1;        
-        }
-        maxArr += right - left + 1;
+        
+        count += right - left +1
+        right++
     }
-
-    return maxArr;
+    
+    return count
 }
