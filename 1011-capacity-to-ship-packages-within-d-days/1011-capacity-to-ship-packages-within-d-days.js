@@ -3,29 +3,41 @@
  * @param {number} days
  * @return {number}
  */
-var shipWithinDays = function(weights, D) {
+var shipWithinDays = function(weights, days) {
+    let answer = Infinity
+    let max = 0
+    let sum = 0
+    for (let weight of weights) {
+        max = Math.max(max, weight)
+        sum += weight
+    }
     
-    let left = 0, right = 0
-    for (let w of weights) {
-        left = Math.max(left, w)
-        right += w
-    }
-    while(left < right) {
-        let mid = Math.floor((left + right) / 2), need = 1, cur = 0
+    while (max < sum) {
+        // 최대 중량
+        const mid = (max+sum) >> 1
+        
 
-        for (let w of weights) {
-            if (cur + w > mid) {
-                need += 1
-                cur = 0
-            }
-            cur += w
+        if (fea(mid)) {
+            sum = mid
+        } else {
+            max = mid+1
         }
-
-        if (need > D) left = mid + 1
-        else right = mid
     }
-    return left
+    
+    function fea(mid) {
+        let d = 1, s = 0
+        
+        for (let weight of weights) {
+            s += weight
+            if (s > mid) {
+                d += 1
+                s = weight
+            } 
+            if (d > days) return false
+        }
+        return true
+    }
+    
+    
+    return max
 };
-// 최소 담을 수 있는 무게: 무게들 중 가장 큰 값 -> 무게들의 길이만큼 시간이 걸림
-// 최대 담을 수 있는 무게: 무게들의 합 -> 하루 걸림.
-// 최소 ~ 최대의 사이 중에서 days만큼의 시간이 걸릴 때 최대 무게
