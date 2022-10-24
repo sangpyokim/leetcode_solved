@@ -4,12 +4,11 @@
  * @return {number}
  */
 var minEatingSpeed = function(piles, h) {
-    // max, sum
+    piles.sort((a,b) => a-b)
     let left = 1, right = 0
     for (let pile of piles) {
         right = Math.max(right, pile)
     }
-    
     
     while(left < right) {
         // 시간 당 먹는 개수
