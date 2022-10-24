@@ -8,14 +8,19 @@ var minimumSize = function(nums, maxOperations) {
     
     while(left < right) {
         const mid = (right + left) >> 1
-        let count = 0
         
-        for (let num of nums) {
-            // 9 - 1 > 8 / 5
-            count += Math.floor((num-1) / mid)
-        }
-        if (count <= maxOperations) right = mid
+        if (helper(mid)) right = mid
         else left = mid +1
     }
+    
+    function helper(mid) {
+        let count = 0
+        for (let num of nums) {
+            count += Math.floor((num-1) / mid)
+        }
+        if (count <= maxOperations) return true
+        else false
+    }
+    
     return left
 };
