@@ -14,12 +14,14 @@ var minimumSize = function(nums, maxOperations) {
     }
     
     function helper(mid) {
+        let res = true
         let count = 0
         for (let num of nums) {
             count += Math.floor((num-1) / mid)
+            if (count > maxOperations) return false
         }
-        if (count <= maxOperations) return true
-        else false
+        
+        return res
     }
     
     return left
