@@ -21,19 +21,19 @@ var kthSmallest = function(mat, k) {
         return totalCombinations;
     }
     
-    let lo = height;
-    let hi = lo * MAX_VALUE;
-    while (lo < hi) {
+    let left = height;
+    let right = left * MAX_VALUE;
+    while (left < right) {
         // value (mid) we are checking to see if the number of combinations
         // is less than or equal to this value (mid)
-        const mid = Math.floor((lo + hi) / 2);
+        const mid = (right + left) >>> 1
 
         const count = numCombinations(0, 0, mid);
         if (count < k) {
-            lo = mid + 1;
+            left = mid + 1;
         } else {
-            hi = mid;
+            right = mid;
         }
     }
-    return lo;
+    return left
 };
