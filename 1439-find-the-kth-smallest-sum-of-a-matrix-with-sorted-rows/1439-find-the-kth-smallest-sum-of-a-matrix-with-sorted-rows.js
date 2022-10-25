@@ -21,6 +21,8 @@ var kthSmallest = function(mat, k) {
         return totalCombinations;
     }
     
+
+    
     let left = height;
     let right = left * MAX_VALUE;
     while (left < right) {
