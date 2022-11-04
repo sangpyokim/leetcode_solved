@@ -6,18 +6,25 @@ var permute = function(nums) {
     const answer = []
     const len = nums.length
     
-    function dfs(L, set, arr) {
-        if (L === len) return answer.push(arr)
+    nums.sort((a,b) => a-b)
+    
+    function dfs(set, arr, used) {
+        if (arr.length === len) return answer.push([...arr])
         
-        for (let num of nums) {
-            if (!set.has(num)) {
-                set.add(num)
-                dfs(L+1, set, [...arr, num])
-                set.delete(num)
-            }
+        for (let i = 0; i < len; i++) {
+            if (used[i] || i > 0 && nums[i] === nums[i-1] && !used[i-1]) continue
+            const num = nums[i]
+            
+            used[i] = true
+            arr.push(num)
+            dfs(set, arr, used)
+            used[i] = false
+            arr.pop(num)
         }
+        
     }
-    dfs(0, new Set(), [])
+    
+    dfs(new Set(), [], new Array(len).fill(false))
     
     return answer
 };
