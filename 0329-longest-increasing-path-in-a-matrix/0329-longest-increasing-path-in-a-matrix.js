@@ -7,35 +7,38 @@ var longestIncreasingPath = function(matrix) {
     const row = matrix.length
     const col = matrix[0].length
     const dir = [[1,0],[0,1],[-1,0],[0,-1]]
-    const visited = Array.from({length: row}, () => new Array(col).fill(false))
-    const table = Array.from({length: row}, () => new Array(col).fill(1))
-    
-    function helper(i, j, count) {
-        if (visited[i][j] || count < table[i][j]) return
-        answer = Math.max(answer, count)
-        visited[i][j] = true
-        
-        table[i][j] = count
 
+    const table = Array.from({length: row}, () => new Array(col))
+    
+    function helper(i, j, min = Number.MIN_SAFE_INTEGER) {
+        if (i < 0 || j < 0 || i >= row || j >= col || matrix[i][j] <= min) return 0;
+        
+        
+        if (table[i][j] != null) {
+            return table[i][j];
+        }
+        
+        
+        let max = 0
+        let temp = 0
+        const cur = matrix[i][j]
         for (let [x, y] of dir) {
             const dx = i + x
             const dy = j + y
-            const cur = matrix[i][j]
-            if (dx >= 0 && dx < row && dy >= 0 && dy < col && cur < matrix[dx][dy]) {
-                helper(dx, dy, count+1)
-            }
+            temp = Math.max(helper(dx, dy, cur), temp)
         }
-        visited[i][j] = false
+        max = Math.max(temp, max) + 1
+        table[i][j] = max
+        return max
     }
 
     
     for (let i = 0; i < row; i++) {
         for (let j = 0; j < col; j++) {
-            helper(i, j, 1)
+            answer = Math.max(answer,helper(i, j))
         }
     }
     
     
     return answer
-    
 };
