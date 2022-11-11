@@ -13,18 +13,14 @@
  */
 var hasPathSum = function(node, targetSum) {
     if (!node) return false
-    
-    let answer = false
-    function dfs(node, sum) {
-        if (!node) return
-        
-        if (!node.left && !node.right && sum+node.val === targetSum) answer = true
-        
-        if (node.left) dfs(node.left, sum + node.val)
-        if (node.right) dfs(node.right, sum + node.val)
-        
-    }
-    dfs(node, 0)
-    
-    return answer
+
+    return helper(node, 0, targetSum)
 };
+
+function helper(node, sum, target) {
+    if (!node) return false
+    
+    if (!node.left && !node.right && sum + node.val === target) return true
+    
+    return helper(node.left, sum + node.val, target) || helper(node.right, sum + node.val, target) 
+}
