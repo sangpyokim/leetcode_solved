@@ -6,8 +6,6 @@
  * @return {boolean}
  */
 var validPath = function(n, edges, source, destination) {
-    // 인접리스트
-    let res = false
     // 1. 인접리스트 초기화
     const graph = {}
     const visited = Array.from({length: n}, () => false)
@@ -24,16 +22,17 @@ var validPath = function(n, edges, source, destination) {
     }
     
     function helper(node){
-        if (visited[node]) return
+        if (visited[node]) return false
         visited[node] = true
-        if (node === destination) return res = true
+        if (node === destination) return true
+        
+        let res = false
         
         for (let x of graph[node]) {
-            helper(x)
+            if (helper(x)) res = true
         }
+        return res
     }
-    helper(source)
     
-    
-    return res
+    return helper(source)
 };
