@@ -29,7 +29,7 @@ var validPath = function(n, edges, source, destination) {
         let res = false
         
         for (let x of graph[node]) {
-            if (helper(x)) res = true
+            if (helper(x)) return res = true
         }
         return res
     }
