@@ -1,56 +1,38 @@
-/**
- * @param {number[][]} forest
- * @return {number}
- */
 var cutOffTree = function(forest) {
-    if (forest[0][0] === 0) return -1
-    let answer = 0
-    const row = forest.length
-    const col = forest[0].length
-    const stack = forest.flat().filter(x => x && x !== 1).sort((a, b) => b - a);
-    const dir = [[1,0],[0,1],[-1,0],[0,-1]]
-    let startPoint = [0,0]
-    
-    const vaild = (dx, dy) => dx >= 0 && dx < row && dy >= 0 && dy < col && forest[dx][dy] !== 0
+    const trees = forest.flat().filter(x => x && x !== 1).sort((a, b) => b - a);
+    let currPos = [0, 0], totalDist = 0;
 
-    const bfs = (target) => {
-        let walkPoint = 0
+    while(trees.length) {
+        const grid = [...forest.map(row => [...row])];
+        const res = getDist(currPos, trees.pop(), grid);
+        if(res == null) return -1;
+        const [pos, dist] = res;
+        currPos = pos;
+        totalDist += dist;
+    }
+    return totalDist;    
+    
+    function getDist(start, target, grid) {
+        const dir = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+        let queue = [start], dist = 0;
         
-        const visited = forest.map(res => new Array(col).fill(false))
-        const q = [startPoint]
-        
-        while(q.length) {
-            const len = q.length
+        while(queue.length) {
+            const next = [];
             
-            for (let i = 0; i < len; i++) {
-                const [i, j] = q.shift()
-                if (forest[i][j] === target) {
-                    startPoint = [i, j]
-                    return walkPoint
-                }
-                if (visited[i][j]) continue
-                visited[i][j] = true
+            for(let [r, c] of queue) {
+                if(grid[r][c] === target) return [[r, c], dist];
+                if(!grid[r][c]) continue;
                 
-                for (let [x, y] of dir) {
-                    const dx = i+x
-                    const dy = j+y
-                    if (vaild(dx, dy)) q.push([dx,dy])
+                for(let [x, y] of dir) {
+                    x += r; y += c;
+                    if(x >= 0 && x < grid.length && y >= 0 && 
+                       y < grid[0].length && grid[x][y]) next.push([x, y])
                 }
+                grid[r][c] = 0;   
             }
-            
-            walkPoint += 1
+            dist++;
+            queue = next;
         }
-        return -1
+        return null;
     }
-
-    while(stack.length) {
-        const number = stack.pop()
-        const result = bfs(number)
-        if (result === -1) return -1
-        answer += result
-    }
-    
-    
-    
-    return answer
 };
