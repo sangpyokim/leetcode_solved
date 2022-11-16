@@ -34,7 +34,8 @@ var cutOffTree = function(forest) {
                     const dx = i+x
                     const dy = j+y
                     if (vaild(dx, dy)) next.push([dx,dy])
-                }            
+                }     
+                
             }
             q = next
             walkPoint += 1
