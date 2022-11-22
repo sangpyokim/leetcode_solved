@@ -1,34 +1,45 @@
-var highestPeak = function(w) {
-    const m = w.length
-    const n = w[0].length
+/**
+ * @param {number[][]} isWater
+ * @return {number[][]}
+ */
+var highestPeak = function(isWater) {
+    const row = isWater.length
+    const col = isWater[0].length
     let q = []
-    for(let mi=0; mi<m; mi++){
-        for(let ni=0; ni<n; ni++){
-            if(w[mi][ni]) q.push([mi, ni])
+    const dir = [[1,0],[0,1],[-1,0],[0,-1]]
+    const grid = isWater.map(() => new Array(col).fill(Infinity))
+    
+    for (let i = 0; i < row; i++) {
+        for (let j = 0; j < col; j++) {
+            if (isWater[i][j] === 1) {
+                grid[i][j] = 0
+                q.push([i, j])
+            }
         }
     }
-    
-    const pos = [[-1, 0], [1, 0], [0, -1], [0, 1]]
-    function getCells([mi, ni]){
-        return pos.map(([ud,lr])=>[mi+ud, ni+lr])
-            .filter(([mj, nj])=>(mj>=0 && mj<m && nj>=0 && nj<n) && !w[mj][nj])
+
+    const visited = isWater.map(() => new Array(col).fill(false))
+    let height = 0
+
+
+    while(q.length) {
+        const temp = []
+        for (let [i, j] of q) {
+            grid[i][j] = Math.min(grid[i][j], height)
+
+            for (let [x, y] of dir) {
+                const dx = i + x
+                const dy = j + y
+                if (dx >= 0 && dx < row && dy >= 0 && dy < col && !visited[dx][dy]) {
+                    temp.push([dx, dy])
+                    visited[dx][dy] = true
+                }
+            }
+        } 
+        height += 1
+        q = temp
     }
+            
     
-    const h = Array(m).fill(0).map(()=>Array(n).fill(0))
-    
-    let i = 0 // reduce time for q.shift
-    while(i<q.length){
-        const cell = q[i++]
-        const cells = getCells(cell)
-        const newHeight = h[cell[0]][cell[1]]+1 // reduce time for array lookup
-        cells
-            .filter(([mj, nj])=>!h[mj][nj])
-            .forEach(c=>{
-                h[c[0]][c[1]]=newHeight
-                q.push(c)
-        })
-    }
-    
-    return h
-    
+    return grid
 };
