@@ -21,7 +21,7 @@ var networkDelayTime = function(times, n, k) {
             }
         }
     }
-    console.log(list[k])
+
     let res = 0
     for (let i = 1; i <= n; i++) {
         if (list[k][i] === Infinity) return -1
