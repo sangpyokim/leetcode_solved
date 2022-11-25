@@ -3,35 +3,34 @@
  * @return {number[]}
  */
 var findRedundantConnection = function(edges) {
-    // edge 마다 그래프에 추가 시키면서하기
-    // [[1,2],[1,3],[2,3]]
-    // x -> y 로 가는 경로가 있다면 return
-    // 1 -> 2 갈 수 없다면 추가
-    // 1 -> 3 마찬가지로 추가
-    // 2 -> 3 갈 수 있기때문에 return
-    const len = edges.length
-    const list = Array.from({ length: len+1 }, () => []) // 그래프
-
+    let par = new Array(edges.length+1).fill(0).map((v, i) => v = i)
+    let rank = new Array(edges.length+1).fill(0).map((v, i) => v = 0)
     
-    function helper(from, to, set) {
-        if (set.has(from)) return
-        set.add(from)
+    const find = x => x === par[x] ? x : par[x] = find(par[x])
+    function union(x, y) {
+        if (x > y) return union(y, x)
+        x = find(x)
+        y = find(y)
 
-        if (from === to) return true
-        
-        let res = false
-        for (let next of list[from]) {
-            if (helper(next, to, set))  res = true
+        // 두 노드의 root 같으면 합치지 않음.
+        if (x === y) return
+
+        // 높이가 더 낮은 트리를 높이가 높은 트리 밑에 넣음.
+        if (rank[x] < rank[y]) {
+            par[x] = y
+        } else {
+            par[y] = x
         }
-        
-        return res
-    }  
+
+        if (rank[x] === rank[y]) {
+            rank[x] += 1
+        }
+}
     
     for (let [x, y] of edges) {
-
-        if (helper(x, y, new Set())) return [x, y]
-        list[x].push(y)
-        list[y].push(x)
+        // console.log(par, rank)
+        if(find(x) === find(y)) return [x, y];
+        else union(x, y)
     }
     
     
