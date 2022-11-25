@@ -6,7 +6,7 @@ var findRedundantConnection = function(edges) {
     let par = new Array(edges.length+1).fill(0).map((v, i) => v = i)
     let rank = new Array(edges.length+1).fill(0).map((v, i) => v = 0)
     
-    const find = x => x === par[x] ? x : par[x] = find(par[x])
+    const find = x => x === par[x] ? x : find(par[x])
     function union(x, y) {
         if (x > y) return union(y, x)
         x = find(x)
