@@ -14,12 +14,14 @@ var findCheapestPrice = function(n, flights, src, dst, k) {
         let temp = [...dist]
         for (let [start, end, weight] of flights) {
 
-            if (dist[start] === Infinity) continue
+            // if (dist[start] === Infinity) continue
             if (temp[end] > dist[start] + weight) {
                 temp[end] = dist[start] + weight
             }
         }
+        // console.log(i, temp, dist)
         dist = [...temp]
+        
     }
     return dist[dst] === Infinity ? -1 : dist[dst]
 };
