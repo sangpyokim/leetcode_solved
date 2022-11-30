@@ -1,30 +1,33 @@
 var findOrder = function(numCourses, prerequisites) {
     const graph = Array.from({ length: numCourses }, () => [])
-    const visited = Array.from({ length: numCourses }, () => 0)
-    const stack = []
+    const inDegree = Array.from({ length: numCourses }, () => 0)
+    const q = []
+    const res = []
     
     for (let [x, y] of prerequisites) {
-        graph[x].push(y)
+        graph[y].push(x)
+        inDegree[x] += 1
     }
     
     for (let i = 0; i < numCourses; i++) {
-        if (visited[i] === 0 && dfs(i)) return []
+        if (inDegree[i] === 0) q.push(i)
     }
     
-    function dfs(node) {
-        visited[node] = 1
+    let prereq = 0
+    while(q.length) {
+        const cur = q.shift()
+        prereq += 1
+        if (inDegree[cur] === 0) res.push(cur)
         
-        const nextNodes = graph[node]
+        const nextNodes = graph[cur]
         
         for (let nextNode of nextNodes) {
-            if (visited[nextNode] === 1) return true
-            if (visited[nextNode] === 0 && dfs(nextNode)) return true
+            inDegree[nextNode] -= 1
+            if (inDegree[nextNode] === 0) {
+                q.push(nextNode)
+            }
         }
-        
-        visited[node] = 2
-        stack.push(node)
-        
-        return false
     }
-    return stack
+    
+    return prereq === numCourses ? res : []
 };
