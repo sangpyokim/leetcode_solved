@@ -5,7 +5,7 @@ var findOrder = function(numCourses, prerequisites) {
     const stack = []
     
     for (let [x, y] of prerequisites) {
-        list[x].push(y)
+        list[y].push(x)
     }
     
     for (let i = 0; i < numCourses; i++) {
@@ -25,5 +25,5 @@ var findOrder = function(numCourses, prerequisites) {
         return false
     }
 
-    return stack
+    return stack.reverse()
 };
