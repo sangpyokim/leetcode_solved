@@ -1,36 +1,30 @@
 var findOrder = function(numCourses, prerequisites) {
+    const graph = Array.from({ length: numCourses }, () => [])
+    const visited = Array.from({ length: numCourses }, () => 0)
+    const stack = []
     
-    const list = Array.from({ length: numCourses }, () => [])
-    const indegree = Array.from({ length: numCourses }, () => 0)
-    const q = []
-    const topoSort = []
     for (let [x, y] of prerequisites) {
-        list[y].push(x)
-        indegree[x] += 1
+        graph[x].push(y)
     }
     
-    for (let i in indegree) {
-        const x = indegree[i]
-        if (x === 0) {
-            q.push(i*1)
-        }
+    for (let i = 0; i < numCourses; i++) {
+        if (visited[i] === 0 && dfs(i)) return []
     }
     
-    
-    
-    let prereq = 0
-    while(q.length > 0) {
-        const cur = q.shift()
-        prereq += 1
-        if (indegree[cur] === 0) topoSort.push(cur)
+    function dfs(node) {
+        visited[node] = 1
         
-        const nextNodes = list[cur]
+        const nextNodes = graph[node]
+        
         for (let nextNode of nextNodes) {
-            if (--indegree[nextNode] === 0) {
-                q.push(nextNode)
-            }
+            if (visited[nextNode] === 1) return true
+            if (visited[nextNode] === 0 && dfs(nextNode)) return true
         }
+        
+        visited[node] = 2
+        stack.push(node)
+        
+        return false
     }
-
-    return prereq === numCourses ? topoSort : []
+    return stack
 };
