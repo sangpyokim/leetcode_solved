@@ -37,7 +37,7 @@ class DSU {
  */
 function minCostConnectPoints(points) {
     const connections = Array.from(uniqueConnections(points));
-    // console.log(connections)
+    
     connections.sort((a, b) => a[2] - b[2]);
     const dsu = new DSU(points.length);
     let totalCost = 0;
@@ -49,14 +49,12 @@ function minCostConnectPoints(points) {
     return totalCost;
 }
 
-function uniqueConnections(arr) {
-    let res = []
+function* uniqueConnections(arr) {
     for (let i = 0; i < arr.length - 1; i++) {
         for (let j = i + 1; j < arr.length; j++) {
-            res.push([i, j, dist(arr[i], arr[j])])
+            yield [i, j, dist(arr[i], arr[j])];
         }
     }
-    return res
 }
 
 function dist([x1, y1], [x2, y2]) {
