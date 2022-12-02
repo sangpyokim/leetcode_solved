@@ -1,39 +1,33 @@
-/**
- * @param {number[][]} points
- * @return {number}
- */
 function minCostConnectPoints(points) {
-    const len = points.length
-    const par = Array.from({ length: len }, (_, i) => i)
-    const find = x => x === par[x] ? x : par[x] = find(par[x])
-    const union = (x, y) => {
-        if (x > y) return union(y, x)
-        x = find(x)
-        y = find(y)
-        par[x] = y
-    }
-    let res = 0
-    const edges = makeEdges(points, len)
-    edges.sort((a,b) => a[2] - b[2])
-    for (let [a,b, w] of edges) {
-        if (find(a) !== find(b)) {
-            union(a,b)
-            res += w
-        }        
-    }
-    
-    return res
-}
+    const len = points.length;
+    const pq = new MinPriorityQueue({priority: ([cost]) => cost});
+    const visited = new Array(len).fill(false);
+    let totalCost = 0, connections = 0, current = 0;
 
-const makeEdges = (arr, n) => {
-    const res = []
-    for (let i = 0; i < n; i++) {
-        for (let j = i+1; j < n; j++) {
-            res.push([i, j, distance(arr[i], arr[j])])
+    while (++connections < len) {
+        visited[current] = true;
+        for (const [cost, neighbor] of uniqueConnections(current)) {
+            pq.enqueue([cost, neighbor]);
         }
+        while (visited[pq.front().element[1]]) {
+            pq.dequeue();
+        }
+        const [cost, node] = pq.dequeue().element;
+        totalCost += cost;
+        current = node;
     }
-    return res
-} 
-const distance = (arr1, arr2) => {
-    return Math.abs(arr1[0] - arr2[0]) + Math.abs(arr1[1] - arr2[1])
+    return totalCost;
+    
+    function uniqueConnections(curr) {
+	    const res = []			
+        for (let i = 0; i < len; i++) {
+            if (i === curr || visited[i]) continue;
+            res.push([dist(points[curr], points[i]), i])
+        }
+        return res
+    }
+};
+
+function dist([x1, y1], [x2, y2]) {
+    return Math.abs(x1 - x2) + Math.abs(y1 - y2);
 }
