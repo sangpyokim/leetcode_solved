@@ -3,13 +3,17 @@
  * @return {number}
  */
 var tribonacci = function(n) {
-    const dp = []
-    dp[0] = 0
-    dp[1] = 1
-    dp[2] = 1
-    for (let i = 3; i <= n; i++) {
-        dp[i] = dp[i-1] + dp[i-2] + dp[i-3]
+    const memo = new Map()
+    
+    function fib(num) {
+        if (num === 1 || num === 2) return 1
+        if (num === 0) return 0
+        if (memo.has(num)) return memo.get(num)
+        
+        memo.set(num, fib(num-1) + fib(num-2) + fib(num-3))
+        
+        return memo.get(num)
     }
     
-    return dp[n]
+    return fib(n)
 };
