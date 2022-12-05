@@ -4,7 +4,7 @@
  * @return {number}
  */
 var longestCommonSubsequence = function(text1, text2) {
-    if (text1.length < text2.length) return longestCommonSubsequence(text2, text1)
+    // if (text1.length < text2.length) return longestCommonSubsequence(text2, text1)
     const col = text1.length
     const row = text2.length
     const dp = Array.from({length: row+1}, () => new Array(col+1).fill(0))
