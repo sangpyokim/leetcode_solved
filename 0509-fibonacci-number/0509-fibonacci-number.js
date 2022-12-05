@@ -3,14 +3,20 @@
  * @return {number}
  */
 function fib(n) {
-    const dp = []
-    dp[0] = 0
-    dp[1] = 1
-    dp[2] = 1
+    const memo = new Map();
     
-    for (let i = 3; i <= n; i++) {
-        dp[i] = dp[i-1] + dp[i-2]
+    function dfs(num) {
+        if (num < 2) return num;
+        
+        let res = 0
+        if (memo.has(num-1)) res += memo.get(num-1)
+        else memo.set(num-1, dfs(num-1))
+        if (memo.has(num-2)) res += memo.get(num-2)
+        else memo.set(num-2, dfs(num-2))
+
+        
+        return memo.get(num-1) + memo.get(num-2)
     }
     
-    return dp[n]
+    return dfs(n)
 };
