@@ -8,11 +8,18 @@ function fib(n) {
     function dfs(num) {
         if (num < 2) return num;
 
-        memo.set(num-1, dfs(num-1))
-        memo.set(num-2, dfs(num-2))
+        memo.set(num, dfs(num-1) + dfs(num-2))
         
-        return memo.get(num-1) + memo.get(num-2)
+        return memo.get(num) 
     }
     
     return dfs(n)
 };
+
+// var fib = function(n, mem = {}) {
+//     if(n in mem) return mem[n]
+//     if(n <= 2) return ( n ? 1 : 0)
+//     mem[n] = fib(n-1, mem) + fib(n-2, mem)
+//     return mem[n]
+// };
+
