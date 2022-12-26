@@ -1,9 +1,4 @@
-/**
- * @param {number[]} nums
- * @return {boolean}
- */
 var canJump = function(nums) {
-    const len = nums.length
     let pos = 0
     
     for (let i in nums) {
