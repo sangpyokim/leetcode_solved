@@ -23,5 +23,6 @@ var findCheapestPrice = function(n, flights, src, dst, k) {
         dist = [...temp]
         
     }
+    
     return dist[dst] === Infinity ? -1 : dist[dst]
 };
