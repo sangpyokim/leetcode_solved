@@ -5,6 +5,7 @@
  */
 var makeConnected = function(n, connections) {
     if (n-1 > connections.length) return -1
+    
     let enough = 0
     const par = Array.from({ length: n }, (v, i) => i)
     const find = (x) => x === par[x] ? x : par[x] = find(par[x])
@@ -24,10 +25,11 @@ var makeConnected = function(n, connections) {
         const x = par[i]
         par[i] = find(i)
     }
+    
     const set = new Set(par)
-    // console.log(set, enough)
+
     if (set.size -1 > enough) return -1
     
     return set.size - 1
-
 };
+
