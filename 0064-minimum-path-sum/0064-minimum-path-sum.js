@@ -2,28 +2,29 @@
  * @param {number[][]} grid
  * @return {number}
  */
-// var minPathSum = function(grid) {
-//     let res = Infinity
-//     const row = grid.length
-//     const col = grid[0].length
-//     const dir = [[1,0],[0,1]]
-    
-//     function helper(i, j, sum) {
-//         if (i === row-1 && j === col-1) res = Math.min(sum, res)
+var minPathSum = function(grid) {
+    let res = Infinity
+    const row = grid.length
+    const col = grid[0].length
+    const dir = [[1,0],[0,1]]
+
+    function helper(i, j, sum) {
+        if (i === row-1 && j === col-1) res = Math.min(sum, res)
         
-//         for (let [x, y] of dir) {
-//             const dx = i + x
-//             const dy = j + y
-//             if (dx >= 0 && dx < row && dy >= 0 && dy < col) {
-//                 helper(dx, dy, sum + grid[dx][dy])
-//             }
-//         }    
-//     }
+        for (let [x, y] of dir) {
+            const dx = i + x
+            const dy = j + y
+            if (dx >= 0 && dx < row && dy >= 0 && dy < col) {
+                helper(dx, dy, sum + grid[dx][dy])
+            }
+        }    
+    }
     
-//     helper(0,0, grid[0][0])
+    helper(0,0, grid[0][0])
     
-//     return res
-// };
+    return res
+};
+
 // 상향식
 var minPathSum = function(grid) {
     const row = grid.length
@@ -40,3 +41,4 @@ var minPathSum = function(grid) {
     
     return dp[row][col]
 };
+
