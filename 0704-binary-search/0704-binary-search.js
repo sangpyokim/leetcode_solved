@@ -1,19 +1,23 @@
 var search = function(nums, target) {
-    let point = Math.floor(nums.length / 2)
-    let end = nums.length
-    let start = 0
-    const visited = []
-    while(nums[point] !== target) {
-        if (visited[point]) return -1
-        else visited[point] = true
-        const cur = nums[point]
-        if (cur < target) {
-            start = point
-            point = Math.floor((point + end) / 2)
-        } else {
-            end = point
-            point = Math.floor((point + start) / 2)
-        }
+    const set = new Set(nums)
+    if (!set.has(target)) return -1
+    
+    const temp = []
+    for (let i in nums) {
+         const num = nums[i]
+         temp.push([i*1, num])
     }
-    return point
+    
+    temp.sort((a,b) => a[1] - b[1])
+    
+    let left = 0, right = nums.length
+    while(left < right) {
+        const mid = (right + left) >>> 1
+        const [index, value] = temp[mid]
+
+        if (value === target) return index
+        else if (value > target) right = mid
+        else left = mid + 1
+    }
+    
 };
