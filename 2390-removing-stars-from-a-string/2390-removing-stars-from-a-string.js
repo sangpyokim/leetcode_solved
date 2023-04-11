@@ -18,7 +18,8 @@ var removeStars = function(s) {
         
     }
     let answer = ''
-    for (let char of temp.reverse().join('')) {
+    const str = temp.reverse().join('')
+    for (let char of str) {
         if (char !== '*') answer += char
     }
     
