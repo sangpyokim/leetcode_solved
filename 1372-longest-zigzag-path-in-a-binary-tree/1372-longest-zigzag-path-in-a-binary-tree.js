@@ -8,13 +8,13 @@ var longestZigZag = function(root) {
         
         max = Math.max(max, length);
         
-        helper(node.left, "l" , prev === "r" ? length + 1 : 1);
-        helper(node.right, "r" , prev === "l" ? length + 1 : 1);
+        helper(node.left, true , !prev ? length + 1 : 1);
+        helper(node.right, false , prev ? length + 1 : 1);
     }
     
     
-    helper(root, "l", 0); 
-    helper(root, "r", 0);
+    helper(root, true, 0); 
+    helper(root, false, 0);
     
     return max;
 };
