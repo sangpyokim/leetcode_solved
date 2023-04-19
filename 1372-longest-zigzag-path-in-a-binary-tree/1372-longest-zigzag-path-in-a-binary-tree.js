@@ -2,9 +2,7 @@ var longestZigZag = function(root) {
     let max = 0;
     
     const helper = (node, prev, length) => {
-    
-        if(node === null)
-            return null;
+        if(!node) return;
         
         max = Math.max(max, length);
         
