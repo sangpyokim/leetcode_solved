@@ -10,8 +10,7 @@ var filter = function(arr, fn) {
         const x = arr[i]
         const t = fn(x, i*1)
         
-        if (t === true) res.push(x)
-        else if (typeof t === 'number' && t != 0) res.push(x)
+        if (t) res.push(x)
     }
     
     
