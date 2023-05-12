@@ -3,14 +3,14 @@
  * @return {Function}
  */
 var once = function(fn) {
-    const res = {
-        calls: 1,
-        value: 0
-    }
+    let beforeCalled = false
     
     return function(...args){
+        if (beforeCalled) return
+        beforeCalled = true
+        
         const res = fn(...args)
-        if (res.calls > 1) return 
+         
         
         return res
     }
