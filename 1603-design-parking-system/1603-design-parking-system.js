@@ -12,7 +12,7 @@
  */
 
 class ParkingSystem {
-    parking = []
+    parking = [0]
     
     constructor(big, medium, small) {
         this.parking.push(big)
@@ -21,9 +21,9 @@ class ParkingSystem {
     }
     
     addCar(type) {
-        if (this.parking[type-1] === 0) return false
+        if (this.parking[type] === 0) return false
         
-        this.parking[type-1] -= 1
+        this.parking[type] -= 1
         return true
     }
 }
